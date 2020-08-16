@@ -9,3 +9,21 @@ def Create_coupon
   coupon = letters.sample(5).join.upcase # Randomly joining into an array
 end
 ```
+<h2>Passthrough controller for different roles userpaths</h2>
+
+<p>A passtrough controller is a good way of defining different root paths in the webapp for different user roles</p>
+
+```ruby
+class PassthroughController < ApplicationController
+  def index
+  path =  case current_user.role
+          when 'student'
+            some_path
+          when 'admin'
+            admin_path
+          when 'teacher'
+            some_teacher_path
+    end
+    redirect_to path
+  end
+```
