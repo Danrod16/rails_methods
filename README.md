@@ -27,3 +27,27 @@ class PassthroughController < ApplicationController
     redirect_to path
   end
 ```
+<h2>Block users for execisve IP logins</h2>
+
+<p>A method we used to avoid users to share their account credentials around the world. In order to be used we use <strong><a href="https://github.com/devise-security/devise-security">Devise-secuirty gem</a></strong> and <strong><a href="https://github.com/heartcombo/devise">Devise gem</a></strong></p>
+
+```ruby
+  def ip_alert
+    if current_user.current_sign_in_ip != current_user.last_sign_in_ip #sign_in_ip methods are default methods from devise-security and current_user from devise
+        @user = current_user
+        @ip_alert = IpLogin.create(user_id: current_user.id) #A model called ip_logins to store the different ip_alerts of the app
+        @ip_alerts = IpLogin.where(user_id: current_user.id)
+        check_ip_alerts
+      end
+    end
+  end
+
+  def check_ip_alerts
+    if @ip_alerts.count > 3
+      current_user.update(blocked: true)
+      @ip_alerts.destroy_all
+      mail = UserMailer.with(user: @user).ip_check #optional: send an email to let them know
+      mail.deliver_now
+    end
+  end
+```
