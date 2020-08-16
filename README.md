@@ -6,6 +6,6 @@
 ```ruby
 def Create_coupon
   letters = (0..9).to_a + ('a'..'z').to_a # creating 2 arrays of numbres and letters
-  @Coupon = letters.sample(5).join.upcase # Randomly joining into an array
+  coupon = letters.sample(5).join.upcase # Randomly joining into an array
 end
 ```
