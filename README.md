@@ -1,4 +1,4 @@
-<h1>A directory of the private methods I encountered while creating Webapps at El Taco Lab</h1>
+<h1>A directory of usefull methods I encountered while creating Webapps at El Taco Lab</h1>
 
 <h2>Creating coupon codes for an e-commerce website</h2>
 <p>A simple method to randomly create coupon codes of 5 letters and numbers. Ideal for e-commerce checkout systems</p>
@@ -50,4 +50,12 @@ class PassthroughController < ApplicationController
       mail.deliver_now
     end
   end
+```
+
+<h2>Back link to previous page (bread crumbs)</h2>
+
+<p>A method to redirect the user to the previous page, very usefull for carts, blog posts and more</p>
+
+```ruby
+      <%= link_to " < Back", request.referer.present? ? request.referer : default_path, class: "navbar-link link-secondary-landing" %>
 ```
