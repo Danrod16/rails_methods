@@ -57,5 +57,68 @@ class PassthroughController < ApplicationController
 <p>A method to redirect the user to the previous page, very usefull for carts, blog posts and more</p>
 
 ```ruby
-      <%= link_to " < Back", request.referer.present? ? request.referer : default_path, class: "navbar-link link-secondary-landing" %>
+  <%= link_to " < Back", request.referer.present? ? request.referer : default_path, class: "navbar-link link-secondary-landing" %>
+```
+
+<h2>Remove nils or blanks from Array</h2>
+<p>A method to remove nil values or empty elements from an array</p>
+
+```ruby
+  a = [1, "", nil, 2, " ", [], {}, false, true]
+  a.compact_blank!
+  # =>  [1, 2, true]
+```
+
+<h2>Extract associated tables</h2>
+<p>Access associated tables data with the method extract_associated</p>
+
+```ruby
+> category.posts.extract_associated(:author)
+Post Load (0.2ms)  SELECT "posts".* FROM "posts" WHERE "posts"."category_id" = ?  [["category_id", 2]]
+Author Load (0.2ms)  SELECT "authors".* FROM "authors" WHERE "authors"."id" IN (?, ?, ?)  [["id", 1], ["id", 2], ["id", 3]]
+=> [#<Author id: 1, name: "Sam", created_at: "2019-08-16 06:26:29", updated_at: "2019-08-16 06:26:29">]
+```
+
+<h2>Find characters and troncate surrounding sentence</h2>
+<p>Use the radius argument to decide how many carracters you want cut from the sentence</p>
+
+```ruby
+excerpt('This is an example', 'an', radius: 5)
+# => ...s is an exam...
+
+excerpt('This is an example', 'is', radius: 5)
+# => This is a...
+
+excerpt('This is an example', 'is')
+# => This is an example
+
+excerpt('This next thing is an example', 'ex', radius: 2)
+# => ...next...
+
+excerpt('This is also an example', 'an', radius: 8, omission: '<chop> ')
+# => <chop> is also an example
+
+excerpt('This is a very beautiful morning', 'very', separator: ' ', radius: 1)
+# => ...a very beautiful...
+```
+<h2>rbenv Cheatsheet</h2>
+
+<a href="https://karloespiritu.github.io/cheatsheets/rbenv/">Rbenv cheatsheet ></a>
+
+<h2>Check if associated items exists</h2>
+
+```ruby
+Artist.where.missing(:reviews)
+# or oppositre
+Artist.where.associated(:reviews)
+```
+
+<h2>Toggle booleans</h2>
+<p>Instead of writing long conditionals to change a boolean value, user toggle</p>
+
+```ruby
+user = User.first
+user.banned? # => false
+user.toggle(:banned)
+user.banned? # => true
 ```
