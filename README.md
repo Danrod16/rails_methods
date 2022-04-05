@@ -121,4 +121,4 @@ user = User.first
 user.banned? # => false
 user.toggle(:banned)
 user.banned? # => true
-```
+``
